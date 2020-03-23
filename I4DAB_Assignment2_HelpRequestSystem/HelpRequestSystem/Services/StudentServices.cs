@@ -16,8 +16,6 @@ namespace HelpRequestSystem.Services
             return await context.Students.AsNoTracking().ToListAsync();
         }
 
-
-
         private async Task CreateNewStudent(HrsContext context, int auId, string name)
         {
             if (context.Students.AsNoTracking().Any(student=>student.StudentId == auId))
