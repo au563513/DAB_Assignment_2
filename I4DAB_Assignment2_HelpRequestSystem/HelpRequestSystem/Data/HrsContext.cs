@@ -24,11 +24,19 @@ namespace HelpRequestSystem.Data
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            // Setup PK
             mb.Entity<Student>().HasKey(student => student.StudentId);
             mb.Entity<Teacher>().HasKey(teacher => teacher.TeacherId);
             mb.Entity<Course>().HasKey(course => course.CourseId);
             mb.Entity<Assignment>().HasKey(assignment => assignment.AssignmentId);
             mb.Entity<Exercise>().HasKey(exercise => new {exercise.Lecture, exercise.Number});
+
+            // Setup SQL attribute constraints
+
+
+            // Setup FK and relations
+
+
         }
     }
 }
