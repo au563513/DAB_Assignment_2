@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HelpRequestSystem.Data
 {
-    class HrsContext : DbContext
+    public class HrsContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
