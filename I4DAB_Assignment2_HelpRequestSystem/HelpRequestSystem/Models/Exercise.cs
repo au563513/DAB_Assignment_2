@@ -17,7 +17,7 @@ namespace HelpRequestSystem.Models
         public Teacher Teacher { get; set; }
         public int TeacherId { get; set; }
 
-        public Assignment Assignment { get; set; }
-        public int AssignmentId { get; set; }
+        public Course Course { get; set; }
+        public int CourseId { get; set; }   
     }
 }

@@ -24,19 +24,30 @@ namespace HelpRequestSystem.Data
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            /*          Setup PK            */
+            #region Setup PK
+
             mb.Entity<Student>().HasKey(student => student.StudentId);
             mb.Entity<Teacher>().HasKey(teacher => teacher.TeacherId);
             mb.Entity<Course>().HasKey(course => course.CourseId);
             mb.Entity<Assignment>().HasKey(assignment => assignment.AssignmentId);
             mb.Entity<Exercise>().HasKey(exercise => new {exercise.Lecture, exercise.Number});
 
-            /*          Setup SQL attribute constraints         */
+            #endregion
 
 
-            /*          Setup FK and relations          */
+
+            #region SQL Attribute constraints
+
+            //Add something.
+
+            #endregion
+
+
+
+            #region Setup FK and relations
 
             //Student - Assignment (Many to Many)
+            //Assignment - Student
             mb.Entity<StudentAssignment>()
                 .HasOne(sa=>sa.Student)
                 .WithMany(s=>s.StudentAssignments)
@@ -46,8 +57,54 @@ namespace HelpRequestSystem.Data
                 .WithMany(s=>s.StudentAssignments)
                 .HasForeignKey(sa=>sa.AssigmentId);
 
-            //Student - Course
+            //Student - Course (Many to Many)
+            //Course - Student
+            mb.Entity<StudentCourse>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.StudentId);
+            mb.Entity<StudentCourse>()
+                .HasOne(sc => sc.Course)
+                .WithMany(c => c.StudentCourses)
+                .HasForeignKey(sc => sc.CourseId);
 
+            //Student - Exercise (One to Many)
+            mb.Entity<Exercise>()
+                .HasOne(e => e.Student)
+                .WithMany(s => s.Exercises)
+                .HasForeignKey(e => e.StudentId);
+
+            //Course - Exercise (One to Many)
+            mb.Entity<Exercise>()
+                .HasOne(e => e.Course)
+                .WithMany(s => s.Exercises)
+                .HasForeignKey(e => e.CourseId);
+
+            //Teacher - Exercise (One to Many)
+            mb.Entity<Exercise>()
+                .HasOne(e => e.Teacher)
+                .WithMany(s => s.Exercises)
+                .HasForeignKey(e => e.TeacherId);
+
+            //Teacher - Assignment (One to Many)
+            mb.Entity<Assignment>()
+                .HasOne(a=>a.Teacher)
+                .WithMany(t=>t.Assignments)
+                .HasForeignKey(a=>a.TeacherId);
+
+            //Course - Assignment (One to Many)
+            mb.Entity<Assignment>()
+                .HasOne(a => a.Course)
+                .WithMany(c => c.Assignments)
+                .HasForeignKey(a => a.CourseId);
+
+            //Course - Teacher (One to Many)
+            mb.Entity<Teacher>()
+                .HasOne(t=>t.Course)
+                .WithMany(c=>c.Teachers)
+                .HasForeignKey(t=>t.CourseId);
+
+            #endregion
 
         }
     }

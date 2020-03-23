@@ -9,8 +9,6 @@ namespace HelpRequestSystem.Models
         public bool Active { get; set; }
         public int Semester { get; set; }
 
-
-
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
