@@ -12,7 +12,9 @@ namespace HelpRequestSystem.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
-            ob.UseSqlServer("ConnString?");
+            string username = "sa";
+            string password = "S4ltsalt";
+            ob.UseSqlServer("Data Source=localhost,1433;Database=HelpRequestdb;User ID="+username+";Password="+password+";");
         }
 
         //DBset
@@ -31,6 +33,8 @@ namespace HelpRequestSystem.Data
             mb.Entity<Course>().HasKey(course => course.CourseId);
             mb.Entity<Assignment>().HasKey(assignment => assignment.AssignmentId);
             mb.Entity<Exercise>().HasKey(exercise => new {exercise.Lecture, exercise.Number});
+            mb.Entity<StudentAssignment>().HasKey(sa=>new {sa.StudentId,sa.AssignmentId});
+            mb.Entity<StudentCourse>().HasKey(sc=>new {sc.StudentId,sc.CourseId});
 
             #endregion
 
@@ -38,7 +42,7 @@ namespace HelpRequestSystem.Data
 
             #region SQL Attribute constraints
 
-            //Add something.
+            mb.Entity<Exercise>().Property(e => e.Lecture).HasMaxLength(40);
 
             #endregion
 
@@ -84,13 +88,15 @@ namespace HelpRequestSystem.Data
             mb.Entity<Exercise>()
                 .HasOne(e => e.Teacher)
                 .WithMany(s => s.Exercises)
+                .OnDelete(DeleteBehavior.ClientNoAction)
                 .HasForeignKey(e => e.TeacherId);
 
             //Teacher - Assignment (One to Many)
             mb.Entity<Assignment>()
-                .HasOne(a=>a.Teacher)
-                .WithMany(t=>t.Assignments)
-                .HasForeignKey(a=>a.TeacherId);
+                .HasOne(a => a.Teacher)
+                .WithMany(t => t.Assignments)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(a => a.TeacherId);
 
             //Course - Assignment (One to Many)
             mb.Entity<Assignment>()
