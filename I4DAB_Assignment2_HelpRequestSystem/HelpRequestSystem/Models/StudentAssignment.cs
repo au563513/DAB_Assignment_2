@@ -9,7 +9,7 @@ namespace HelpRequestSystem.Models
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
-        public int AssigmentId { get; set; }
+        public int AssignmentId { get; set; }
         public Assignment Assignment { get; set; }
     }
 }

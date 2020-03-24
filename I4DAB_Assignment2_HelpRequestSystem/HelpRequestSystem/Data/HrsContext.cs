@@ -55,7 +55,7 @@ namespace HelpRequestSystem.Data
             mb.Entity<StudentAssignment>()
                 .HasOne(sa=>sa.Assignment)
                 .WithMany(s=>s.StudentAssignments)
-                .HasForeignKey(sa=>sa.AssigmentId);
+                .HasForeignKey(sa=>sa.AssignmentId);
 
             //Student - Course (Many to Many)
             //Course - Student
