@@ -22,7 +22,7 @@ namespace HelpRequestSystem.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<Exercise> Type { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -41,6 +41,8 @@ namespace HelpRequestSystem.Data
 
 
             #region SQL Attribute constraints
+
+            mb.Entity<Student>().Property(s => s.StudentId).ValueGeneratedNever();
 
             mb.Entity<Exercise>().Property(e => e.Lecture).HasMaxLength(40);
 

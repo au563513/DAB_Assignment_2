@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HelpRequestSystem.Migrations
 {
     [DbContext(typeof(HrsContext))]
-    [Migration("20200324144849_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200324154414_Test2Migration")]
+    partial class Test2Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,15 +89,13 @@ namespace HelpRequestSystem.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Type");
+                    b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("HelpRequestSystem.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("StudentName")
                         .HasColumnType("nvarchar(max)");

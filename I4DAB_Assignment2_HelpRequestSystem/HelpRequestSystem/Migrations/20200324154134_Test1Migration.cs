@@ -2,7 +2,7 @@
 
 namespace HelpRequestSystem.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Test1Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,8 +23,7 @@ namespace HelpRequestSystem.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(nullable: false),
                     StudentName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -105,7 +104,7 @@ namespace HelpRequestSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Type",
+                name: "Exercises",
                 columns: table => new
                 {
                     Number = table.Column<int>(nullable: false),
@@ -117,21 +116,21 @@ namespace HelpRequestSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Type", x => new { x.Lecture, x.Number });
+                    table.PrimaryKey("PK_Exercises", x => new { x.Lecture, x.Number });
                     table.ForeignKey(
-                        name: "FK_Type_Courses_CourseId",
+                        name: "FK_Exercises_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Type_Students_StudentId",
+                        name: "FK_Exercises_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Type_Teachers_TeacherId",
+                        name: "FK_Exercises_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "TeacherId");
@@ -172,6 +171,21 @@ namespace HelpRequestSystem.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exercises_CourseId",
+                table: "Exercises",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exercises_StudentId",
+                table: "Exercises",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exercises_TeacherId",
+                table: "Exercises",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StudentAssignment_AssignmentId",
                 table: "StudentAssignment",
                 column: "AssignmentId");
@@ -185,33 +199,18 @@ namespace HelpRequestSystem.Migrations
                 name: "IX_Teachers_CourseId",
                 table: "Teachers",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Type_CourseId",
-                table: "Type",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Type_StudentId",
-                table: "Type",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Type_TeacherId",
-                table: "Type",
-                column: "TeacherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Exercises");
+
+            migrationBuilder.DropTable(
                 name: "StudentAssignment");
 
             migrationBuilder.DropTable(
                 name: "StudentCourse");
-
-            migrationBuilder.DropTable(
-                name: "Type");
 
             migrationBuilder.DropTable(
                 name: "Assignments");
