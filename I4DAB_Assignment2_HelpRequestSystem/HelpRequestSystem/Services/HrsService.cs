@@ -100,6 +100,28 @@ namespace HelpRequestSystem.Services
             }
         }
 
+        public static void CloseAssignmentHelpRequest(int assignmentId)
+        {
+            using (var c = new HrsContext())
+            {
+                var assignment = c.Assignments.Find(assignmentId);
+                if (assignment == null) return; // Hvis assignment er lige med null - altså ingen assignment eksisterer med det id - så hopper vi ud af funktionen
+
+                assignment.IsOpen = false;
+            }
+        }
+
+        public static void CloseExerciseHelpRequest(string lecture, int number)
+        {
+            using (var c = new HrsContext())
+            {
+                var exercise = c.Exercises.Find(lecture, number);
+                if (exercise == null) return; // Hvis exercise er lige med null - altså ingen exercise eksisterer med den primary key - så hopper vi ud af funktionen
+
+                exercise.IsOpen = false;
+            }
+        }
+
         public static void AddTeacherToAssignment(int assignmentId, int teacherId)
         {
             using (var c = new HrsContext())
