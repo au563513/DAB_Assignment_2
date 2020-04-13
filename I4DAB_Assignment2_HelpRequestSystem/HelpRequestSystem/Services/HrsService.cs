@@ -236,9 +236,12 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                var list = c.Exercises.AsNoTracking().Where(E => E.CourseId == courseId && E.TeacherId == teacherId)
+                var list = c.Exercises.AsNoTracking()
+                    .Where(E => E.CourseId == courseId && E.TeacherId == teacherId)
                     .Include(c=>c.Teacher)
-                    .Include(c=>c.Course).ToList();
+                    .Include(c=>c.Course)
+                    .Include(c=>c.Student)
+                    .ToList();
 
                 return list;
             }
@@ -248,11 +251,48 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                var list = c.Assignments.AsNoTracking().Where(A => A.CourseId == courseId && A.TeacherId == teacherId)
-                    .Include(c => c.Course).Include(c => c.Teacher).ToList();
+                var list = c.Assignments.AsNoTracking()
+                    .Where(A => A.CourseId == courseId && A.TeacherId == teacherId)
+                    .Include(c => c.Course)
+                    .Include(c => c.Teacher)
+                    .ToList();
 
                 return list;
             }
         }
+
+        public static bool GetHelpRequestsForStudent(int studentId, out List<Exercise> exercises,
+            out List<Assignment> assignments)
+        {
+            using (var c = new HrsContext())
+            {
+                if (!c.Students.Any(s => s.StudentId == studentId))
+                {
+                    exercises = null;
+                    assignments = null;
+                    return false;
+                }
+
+                exercises = c.Exercises.AsNoTracking()
+                    .Where(e => e.StudentId == studentId)
+                    .Include(e=>e.Teacher)
+                    .ToList();
+
+                assignments = c.StudentAssignments.AsNoTracking()
+                    .Where(sa=>sa.StudentId == studentId)
+                    .Select(sa=>sa.Assignment)
+                    .Include(a=>a.Teacher)
+                    .ToList();
+
+                if (!exercises.Any() && !assignments.Any())
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            
+        }
+
     }
 }

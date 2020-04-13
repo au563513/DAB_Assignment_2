@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HelpRequestSystem.Services;
 using HelpRequestSystem.Data;
@@ -27,7 +28,24 @@ namespace HelpRequestSystem
                         break;
 
                     case '2':
-                        
+                        Console.Write("Enter student ID:");
+                        var temp = Console.ReadLine();
+
+                        if (HrsService.GetHelpRequestsForStudent(int.Parse(temp),
+                            out List<Exercise> exercises,
+                            out List<Assignment> assignments))
+                        {
+                            foreach (var exercise in exercises)
+                            {
+                                Console.WriteLine($"{exercise.Number} {exercise.Lecture} {exercise.Teacher} {exercise.HelpWhere} {exercise.IsOpen}");
+                            }
+
+                            foreach (var assignment in assignments)
+                            {
+                                Console.WriteLine($"{assignment.AssignmentName} {assignment.Teacher} {assignment.IsOpen}");
+                            }
+                        }
+
                         break;
 
                     case '3':
