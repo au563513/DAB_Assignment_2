@@ -11,34 +11,58 @@ namespace HelpRequestSystem
     {
         static void Main(string[] args)
         {
-            //ClearDatabase();
-
             HrsService.Seed();
-
-            foreach (var student in HrsService.GetStudentList())
+            Help();
+            Console.Write("\n --- --- --- \n");
+            bool finish = false;
+            do
             {
-                Console.WriteLine(student);
-            }
-
-            foreach (var course in HrsService.GetCourseList())
-            {
-                Console.Write(course + " :");
-                foreach (var courseTeacher in course.Teachers)
+                char input;
+                input = Console.ReadKey(true).KeyChar;
+                switch (Char.ToUpper(input))
                 {
-                    Console.Write($" {courseTeacher}");
-                }
-                Console.WriteLine("");
-            }
+                    case '1':
+                        
+                        break;
 
-            foreach (var course in HrsService.GetCourseList())
-            {
-                Console.Write(course + " :");
-                foreach (var studentCourse in course.StudentCourses)
-                {
-                    Console.Write($" {studentCourse.Student}");
+                    case '2':
+                        
+                        break;
+
+                    case '3':
+                        
+                        break;
+
+                    case 'R':
+                        ClearDatabase();
+                        HrsService.Seed();
+                        break;
+
+                    case 'H':
+                        Help();
+                        break;
+
+                    case 'E':
+                        finish = true;
+                        break;
+
+                    default:
+                        break;
                 }
-                Console.WriteLine("");
-            }
+
+                Console.Write("\n --- --- --- \n");
+            } while (!finish);
+        }
+
+        public static void Help()
+        {
+            System.Console.WriteLine("Hit key: " +
+                                     "  1: Print open Help Requests for course\n" +
+                                     "  2: Print open Help Requests for student\n" +
+                                     "  3: Help Requests per course. (Open / Total)\n" +
+                                     "  r: Reset Database(takes some time)\n" +
+                                     "  h: Help / Print this menu again\n" +
+                                     "  e: Exit program");
         }
 
         public static void ClearDatabase()

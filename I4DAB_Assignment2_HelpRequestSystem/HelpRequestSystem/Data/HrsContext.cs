@@ -50,6 +50,10 @@ namespace HelpRequestSystem.Data
 
             mb.Entity<Course>().HasIndex(c => c.Name).IsUnique();
 
+            mb.Entity<Assignment>().Property(a => a.IsOpen).HasDefaultValue(true);
+
+            mb.Entity<Exercise>().Property(a => a.IsOpen).HasDefaultValue(true);
+
             #endregion
 
 
