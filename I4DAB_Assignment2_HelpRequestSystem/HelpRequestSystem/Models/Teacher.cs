@@ -16,5 +16,10 @@ namespace HelpRequestSystem.Models
         public List<Exercise> Exercises { get; set; }
 
         public List<Assignment> Assignments { get; set; }
+
+        public override string ToString()
+        {
+            return $"{TeacherName}";
+        }
     }
 }

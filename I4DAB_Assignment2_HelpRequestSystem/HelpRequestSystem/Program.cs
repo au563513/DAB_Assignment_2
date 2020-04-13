@@ -22,11 +22,12 @@ namespace HelpRequestSystem
 
             foreach (var course in HrsService.GetCourseList())
             {
-                Console.WriteLine(course + " :");
+                Console.Write(course + " :");
                 foreach (var courseTeacher in course.Teachers)
                 {
                     Console.Write($" {courseTeacher}");
                 }
+                Console.WriteLine("");
             }
         }
 
