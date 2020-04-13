@@ -104,11 +104,13 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                if (c.Assignments.Find(assignmentId) != null) return;
-                if (c.Teachers.Find(teacherId) != null) return;
-
                 var assignment = c.Assignments.Find(assignmentId);
-                assignment.TeacherId = assignmentId;
+                var teacher = c.Teachers.Find(teacherId);
+
+                if (assignment == null) return;
+                if (teacher == null) return;
+
+                assignment.TeacherId = teacher.TeacherId;
 
                 c.SaveChanges();
             }
@@ -119,13 +121,15 @@ namespace HelpRequestSystem.Services
             using (var c = new HrsContext())
             {
                 var exercises = c.Exercises.Find(lecture, number);
-
                 if (exercises == null) return;
-                if (c.Teachers.Find(teacherId) == null) return;
 
-                exercises.TeacherId = teacherId;
+                if (c.Teachers.Any(t => t.TeacherId == teacherId))
+                {
+                    exercises.TeacherId = teacherId;
 
-                c.SaveChanges();
+                    c.SaveChanges();
+                }
+
             }
         }
 
@@ -133,7 +137,7 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                if (c.Exercises.Find(lecture, number) == null) return;
+                if (c.Exercises.Find(lecture, number) != null) return;
 
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
