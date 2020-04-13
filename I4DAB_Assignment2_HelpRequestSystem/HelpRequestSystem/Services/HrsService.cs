@@ -50,6 +50,7 @@ namespace HelpRequestSystem.Services
                     catch
                     {
                         transaction.Rollback();
+                        throw;
                     }
                 }
             }
@@ -70,20 +71,20 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                if (c.StudentCourses.Find(studentId, courseId) == null) return;
+                if (c.StudentCourses.Find(studentId, courseId) != null) return;
 
                 var student = c.Students.Find(studentId);
                 var course = c.Courses.Find(courseId);
                 if (student == null || course == null) return;
 
-                var SA = new StudentCourse()
+                var studentCourse = new StudentCourse()
                 {
                     Active = active,
                     Semester = semester,
                     StudentId = student.StudentId,
                     CourseId = course.CourseId
                 };
-                c.StudentCourses.Add(SA);
+                c.Add(studentCourse);
                 c.SaveChanges();
             }
         }
