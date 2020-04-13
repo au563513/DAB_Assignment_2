@@ -110,6 +110,8 @@ namespace HelpRequestSystem.Services
                 
                 course.Exercises.Add(exercise);
                 student.Exercises.Add(exercise);
+
+                c.SaveChanges();
             }
         }
 
@@ -141,6 +143,8 @@ namespace HelpRequestSystem.Services
                 assignment.StudentAssignments.Add(helpRequest);
                 student.StudentAssignments.Add(helpRequest);
                 course.Assignments.Add(assignment);
+
+                c.SaveChanges();
             }
         }
 
