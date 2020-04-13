@@ -277,8 +277,6 @@ namespace HelpRequestSystem.Services
             {
                 var list = c.Exercises.AsNoTracking()
                     .Where(E => E.CourseId == courseId && E.TeacherId == teacherId)
-                    .Include(c=>c.Teacher)
-                    .Include(c=>c.Course)
                     .Include(c=>c.Student)
                     .ToList();
 
@@ -292,8 +290,8 @@ namespace HelpRequestSystem.Services
             {
                 var list = c.Assignments.AsNoTracking()
                     .Where(A => A.CourseId == courseId && A.TeacherId == teacherId)
-                    .Include(c => c.Course)
-                    .Include(c => c.Teacher)
+                    .Include(a=>a.StudentAssignments)
+                    .ThenInclude(sa=>sa.Student)
                     .ToList();
 
                 return list;

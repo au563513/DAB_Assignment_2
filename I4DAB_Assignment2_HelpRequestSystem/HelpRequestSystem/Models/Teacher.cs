@@ -19,7 +19,7 @@ namespace HelpRequestSystem.Models
 
         public override string ToString()
         {
-            return $"{TeacherName}";
+            return $"{TeacherName}({TeacherId})";
         }
     }
 }

@@ -24,7 +24,25 @@ namespace HelpRequestSystem
                 switch (Char.ToUpper(input))
                 {
                     case '1':
-                        
+                        Console.Write("Enter Teacher ID:");
+                        var tempT = int.Parse(Console.ReadLine());
+                        Console.Write("Enter Course ID:");
+                        var tempC = int.Parse(Console.ReadLine());
+
+                        foreach (var assignment in HrsService.GetAssignmentHelpRequest(tempT,tempC))
+                        {
+                            Console.Write($"{assignment.AssignmentId} {assignment.AssignmentName}: ");
+                            foreach (var studentAssignment in assignment.StudentAssignments)
+                            {
+                                Console.Write($"{studentAssignment.Student}, ");
+                            }
+                            Console.WriteLine(" ");
+                        }
+
+                        foreach (var exercise in HrsService.GetExerciseHelpRequest(tempT, tempC))
+                        {
+                            Console.WriteLine($"{exercise.Number} {exercise.Lecture}: {exercise.Student} {exercise.HelpWhere}");
+                        }
                         break;
 
                     case '2':
