@@ -77,7 +77,7 @@ namespace HelpRequestSystem.Services
                 }
             }
         }
-
+        
         public static void CreateStudent(Student student)
         {
             using (var c = new HrsContext())
