@@ -40,27 +40,27 @@ namespace HelpRequestSystem.Services
 
                         EnrollStudent(123456,2,true,3);
                         EnrollStudent(123457,2,true,3);
+                        EnrollStudent(123456, 1, true, 3);
+                        EnrollStudent(123457, 1, true, 3);
                         EnrollStudent(123458,1,true,3);
                         EnrollStudent(123459,1,true,3);
                         EnrollStudent(123460,1,true,3);
                         EnrollStudent(123411,1,true,4);
                         EnrollStudent(123412,1,true,4);
 
-                        if (!c.Assignments.Any(a=>a.AssignmentId == 1))
-                        {
-                            CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
-                        }
-
-                        if (!c.Assignments.Any(a => a.AssignmentId == 2))
-                        {
-                            CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
-                        }
+                        CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
+                        CreateAssignmentHelpRequest(123457, 2, "State-machines 101");
+                        CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
+                        CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
 
                         CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3", 1);
                         CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4", 1);
+                        CreateExerciseHelpRequest(123457, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 2", 1);
+                        CreateExerciseHelpRequest(123458, 1, "7.2 EF Core - Query + Manipulation", "I baghaven", 1);
 
                         AddTeacherToAssignment(1, 3); // State-machines 101 + Bente 'UML' Hansen
                         AddTeacherToAssignment(2, 1); // DAB Assigment 2 + DAB manden
+                        
                         AddTeacherToExercise("7.1 EF Core", 1, 2); // 7.1 EF Core + Hans Kristian
                         AddTeacherToExercise("7.2 EF Core - Query + Manipulation", 1, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
 
