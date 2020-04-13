@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20200413144108_ForeignkeysMashup2.Designer.cs" />
     <Compile Remove="Migrations\20200413144352_ForeignkeysMashup3.cs" />
     <Compile Remove="Migrations\20200413144352_ForeignkeysMashup3.Designer.cs" />
+    <Compile Remove="Migrations\20200413160418_AddedIsOpen.cs" />
+    <Compile Remove="Migrations\20200413160418_AddedIsOpen.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

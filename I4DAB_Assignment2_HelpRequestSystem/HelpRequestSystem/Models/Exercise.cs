@@ -19,5 +19,7 @@ namespace HelpRequestSystem.Models
 
         public Course Course { get; set; }
         public int CourseId { get; set; }   
+
+        public bool IsOpen { get; set; }
     }
 }
