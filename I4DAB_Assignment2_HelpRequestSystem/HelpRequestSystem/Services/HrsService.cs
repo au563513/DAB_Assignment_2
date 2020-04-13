@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using HelpRequestSystem.Data;
@@ -83,15 +84,59 @@ namespace HelpRequestSystem.Services
             }
         }
 
-        public static void CreateHelpRequest(int studentId, bool isAssignment)
+        public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere)
         {
             using (var c = new HrsContext())
             {
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
+
+                var course = c.Courses.Find(courseId);
+                if (course == null) return;
+
+                var exercise = new Exercise()
+                {
+                    Lecture = lecture,
+                    HelpWhere = helpWhere,
+                    StudentId = studentId,
+                    Student = student,
+                    CourseId = courseId,
+                    Course = course
+                };
                 
+                course.Exercises.Add(exercise);
+                student.Exercises.Add(exercise);
+            }
+        }
 
+        public static void CreateAssignmentHelpRequest(int studentId, int courseId, string assignmentName)
+        {
+            using (var c = new HrsContext())
+            {
+                var student = c.Students.Find(studentId);
+                if (student == null) return;
 
+                var course = c.Courses.Find(courseId);
+                if (course == null) return;
+
+                var assignment = new Assignment()
+                {
+                    AssignmentName = assignmentName,
+                    CourseId = courseId,
+                    Course = course
+                };
+
+                var helpRequest = new StudentAssignment()
+                {
+                    StudentId = studentId,
+                    Student = student,
+                    AssignmentId = assignment.AssignmentId,
+                    Assignment = assignment
+                };
+
+                assignment.StudentAssignments.Add(helpRequest);
+                student.StudentAssignments.Add(helpRequest);
+                course.Assignments.Add(assignment);
             }
         }
 
