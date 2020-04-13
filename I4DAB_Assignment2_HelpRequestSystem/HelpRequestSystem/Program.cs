@@ -77,7 +77,7 @@ namespace HelpRequestSystem
                         var Oe = HrsService.ShowStatisticsExercises(true, tempCC);
                         var Ce = HrsService.ShowStatisticsExercises(false, tempCC);
                         var Oa = HrsService.ShowStatisticsAssignment(true, tempCC);
-                        var Ca = HrsService.ShowStatisticsAssignment(true, tempCC);
+                        var Ca = HrsService.ShowStatisticsAssignment(false, tempCC);
 
                         Console.WriteLine($"{Oe+Oa} / {Oe+Oa+Ce+Ca}");
 
