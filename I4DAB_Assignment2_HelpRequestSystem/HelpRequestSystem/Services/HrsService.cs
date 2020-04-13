@@ -330,5 +330,27 @@ namespace HelpRequestSystem.Services
             
         }
 
+        public static int ShowStatisticsExercises(bool isOpen, int courseId)
+        {
+            using (var c = new HrsContext())
+            {
+                var count = c.Exercises.Where(e=>e.CourseId == courseId).Count(e => e.IsOpen == isOpen);
+
+                return count;
+            }
+        }
+
+        public static int ShowStatisticsAssignment(bool isOpen, int courseId)
+        {
+            using (var c = new HrsContext())
+            {
+                var count = c.Assignments.Where(a => a.CourseId == courseId).Count(e => e.IsOpen == isOpen);
+
+                return count;
+            }
+        }
+
+
+
     }
 }
