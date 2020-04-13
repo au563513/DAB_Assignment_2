@@ -51,6 +51,29 @@ namespace HelpRequestSystem.Services
             }
         }
 
+        public static void EnrollStudent(Student student, Course course)
+        {
+            using (var c = new HrsContext())
+            {
+                using (var transaction = c.Database.BeginTransaction())
+                {
+                    
+
+
+                }
+            }
+        }
+
+        public static Student FindStudent(int auId)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Students.Any(s => s.StudentId == auId)) return null;
+
+                return c.Students.Find(auId);
+            }
+        }
+
         public static List<Student> GetStudentList()
         {
             using (var c = new HrsContext())

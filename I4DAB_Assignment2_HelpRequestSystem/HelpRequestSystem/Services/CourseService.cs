@@ -19,6 +19,18 @@ namespace HelpRequestSystem.Services
             }
         }
 
+        public static Course FindCourse(int id)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Courses.Any(c=>c.CourseId == id))
+                {
+                    return c.Courses.Find(id);
+                }
+                return null;
+            }
+        }
+
         public static List<Course> GetCourseList()
         {
             using (var c = new HrsContext())

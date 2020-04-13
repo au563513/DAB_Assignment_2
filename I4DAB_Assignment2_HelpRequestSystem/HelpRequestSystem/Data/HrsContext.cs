@@ -23,6 +23,8 @@ namespace HelpRequestSystem.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<StudentAssignment> StudentAssignments { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
