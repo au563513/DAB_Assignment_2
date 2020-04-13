@@ -17,5 +17,7 @@ namespace HelpRequestSystem.Models
         public int CourseId { get; set; }
 
         public List<StudentAssignment> StudentAssignments { get; set; }
+
+        public bool IsOpen { get; set; }
     }
 }
