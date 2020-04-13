@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -20,15 +21,23 @@ namespace HelpRequestSystem.Services
                 {
                     try
                     {
-                        CreateStudent(new Student(){ StudentId = 123456, StudentName = "Anton Nielsen" });
-                        CreateStudent(new Student(){ StudentId = 123457, StudentName = "Bente Pedersen" });
-                        CreateStudent(new Student(){ StudentId = 123458, StudentName = "Søstjerne Fiskesen" });
-                        CreateStudent(new Student(){ StudentId = 123459, StudentName = "Hilda Nielsen" });
-                        CreateStudent(new Student(){ StudentId = 123460, StudentName = "Bent Sørensen" });
-                        CreateStudent(new Student(){ StudentId = 123411, StudentName = "Hans Hansen" });
-                        CreateStudent(new Student(){ StudentId = 123412, StudentName = "Emil Dollas" });
+                        CreateStudent(new Student() {StudentId = 123456, StudentName = "Anton Nielsen"});
+                        CreateStudent(new Student() {StudentId = 123457, StudentName = "Bente Pedersen"});
+                        CreateStudent(new Student() {StudentId = 123458, StudentName = "Søstjerne Fiskesen"});
+                        CreateStudent(new Student() {StudentId = 123459, StudentName = "Hilda Nielsen"});
+                        CreateStudent(new Student() {StudentId = 123460, StudentName = "Bent Sørensen"});
+                        CreateStudent(new Student() {StudentId = 123411, StudentName = "Hans Hansen"});
+                        CreateStudent(new Student() {StudentId = 123412, StudentName = "Emil Dollas"});
 
                         CourseService.CreateCourse("I4Databaser");
+
+                        EnrollStudent(123456,1,true,3);
+                        EnrollStudent(123457,1,true,3);
+                        EnrollStudent(123458,1,true,3);
+                        EnrollStudent(123459,1,true,3);
+                        EnrollStudent(123460,1,true,3);
+                        EnrollStudent(123411,1,true,4);
+                        EnrollStudent(123412,1,true,4);
 
                         transaction.Commit();
                     }
@@ -43,24 +52,33 @@ namespace HelpRequestSystem.Services
         public static void CreateStudent(Student student)
         {
             using (var c = new HrsContext())
-            { 
+            {
                 if (c.Students.Any(s => s.StudentId == student.StudentId)) return;
-                
+
                 c.Add(student);
                 c.SaveChanges();
             }
         }
 
-        public static void EnrollStudent(Student student, Course course)
+        public static void EnrollStudent(int studentId, int courseId, bool active, int semester)
         {
             using (var c = new HrsContext())
             {
-                using (var transaction = c.Database.BeginTransaction())
+                if (c.StudentCourses.Find(studentId, courseId) == null) return;
+                
+                var student = FindStudent(studentId);
+                var course = CourseService.FindCourse(courseId);
+                if (student == null || course == null) return;
+
+                var SA = new StudentCourse()
                 {
-                    
-
-
-                }
+                    Active = active,
+                    Semester = semester,
+                    StudentId = student.StudentId,
+                    CourseId = course.CourseId
+                };
+                c.StudentCourses.Add(SA);
+                c.SaveChanges();
             }
         }
 

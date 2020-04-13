@@ -14,6 +14,8 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
+                if (c.Courses.Any(c=>c.Name == courseName)) return;
+
                 c.Add(new Course() {Name = courseName});
                 c.SaveChanges();
             }

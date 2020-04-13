@@ -48,6 +48,8 @@ namespace HelpRequestSystem.Data
 
             mb.Entity<Exercise>().Property(e => e.Lecture).HasMaxLength(40);
 
+            mb.Entity<Course>().HasIndex(c => c.Name).IsUnique();
+
             #endregion
 
 
