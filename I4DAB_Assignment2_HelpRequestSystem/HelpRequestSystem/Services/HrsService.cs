@@ -134,7 +134,7 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                if (c.Exercises.Any(c => c.Lecture == lecture) || c.Exercises.Any(c => c.Number == number)) return;
+                if (c.Exercises.Find(lecture, number) == null) return;
 
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
