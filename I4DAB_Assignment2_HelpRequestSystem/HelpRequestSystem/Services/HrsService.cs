@@ -47,7 +47,6 @@ namespace HelpRequestSystem.Services
 
                         CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
                         CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
-
                         CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3");
                         CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4");
 
@@ -110,14 +109,10 @@ namespace HelpRequestSystem.Services
                     Lecture = lecture,
                     HelpWhere = helpWhere,
                     StudentId = studentId,
-                    Student = student,
                     CourseId = courseId,
-                    Course = course
                 };
-                
-                course.Exercises.Add(exercise);
-                student.Exercises.Add(exercise);
 
+                c.Add(exercise);
                 c.SaveChanges();
             }
         }
@@ -136,21 +131,16 @@ namespace HelpRequestSystem.Services
                 {
                     AssignmentName = assignmentName,
                     CourseId = courseId,
-                    Course = course
                 };
+                c.Add(assignment);
 
                 var helpRequest = new StudentAssignment()
                 {
                     StudentId = studentId,
-                    Student = student,
                     AssignmentId = assignment.AssignmentId,
-                    Assignment = assignment
                 };
 
-                assignment.StudentAssignments.Add(helpRequest);
-                student.StudentAssignments.Add(helpRequest);
-                course.Assignments.Add(assignment);
-
+                c.Add(helpRequest);
                 c.SaveChanges();
             }
         }
