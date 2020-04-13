@@ -122,13 +122,11 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                var List = c.Courses.AsNoTracking().ToList();
-                foreach (var course in List)
-                {
-                    course.Teachers = c.Teachers.Where(t => t.CourseId == course.CourseId)
-                                                .AsNoTracking()
-                                                .ToList();
-                }
+                var List = c.Courses.AsNoTracking()
+                    .Include(c => c.Teachers)
+                    .Include(c=> c.StudentCourses)
+                        .ThenInclude(sc=>sc.Student)
+                    .ToList();
 
                 return List;
             }
