@@ -39,6 +39,7 @@ namespace HelpRequestSystem
         {
             using (var c = new HrsContext())
             {
+                c.Database.EnsureCreated();
                 c.Students.Add(CreateStudent(123456,"Anders"));
                 c.Students.Add(CreateStudent(123455,"Peter"));
                 c.Students.Add(CreateStudent(132213,"Julie"));
