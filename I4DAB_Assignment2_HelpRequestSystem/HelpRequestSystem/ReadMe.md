@@ -10,3 +10,5 @@ variable.
 Now you can hit CTRL+F5 to build and run the project, if you use Visual Studio.
 
 # How to use the application
+
+Follow the menu in the terminal window.
