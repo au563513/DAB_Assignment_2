@@ -10,5 +10,10 @@ namespace HelpRequestSystem.Models
         public List<Assignment> Assignments { get; set; }
         public List<Teacher> Teachers { get; set; }
         public List<Exercise> Exercises { get; set; }
+
+        public override string ToString()
+        {
+            return $"{CourseId}: {Name}";
+        }
     }
 }

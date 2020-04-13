@@ -15,14 +15,14 @@ namespace HelpRequestSystem
 
             StudentService.Seed();
 
-            using (var c = new HrsContext())
+            foreach (var student in StudentService.GetStudentList())
             {
-                var list = c.Students.AsNoTracking().ToList();
-                
-                foreach (var student in list)
-                {
-                    Console.WriteLine($"au{student.StudentId}, {student.StudentName}");
-                }
+                Console.WriteLine(student);
+            }
+
+            foreach (var course in CourseService.GetCourseList())
+            {
+                Console.WriteLine(course);
             }
 
         }

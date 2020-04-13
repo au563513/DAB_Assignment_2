@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using HelpRequestSystem.Data;
@@ -17,26 +18,44 @@ namespace HelpRequestSystem.Services
             {
                 using (var transaction = c.Database.BeginTransaction())
                 {
-                    CreateStudent(123456,"Anton Nielsen");
-                    CreateStudent(654321,"Benta Raket");
-                    CreateStudent(123457, "Damen FraNetto");
-                    CreateStudent(654327, "Hilda Bentonio");
-                    CreateStudent(123454, "Svend Nielsen");
-                    CreateStudent(654324, "Severin Raket");
-                    transaction.Commit();
+                    try
+                    {
+                        CreateStudent(new Student(){ StudentId = 123456, StudentName = "Anton Nielsen" });
+                        CreateStudent(new Student(){ StudentId = 123457, StudentName = "Bente Pedersen" });
+                        CreateStudent(new Student(){ StudentId = 123458, StudentName = "Søstjerne Fiskesen" });
+                        CreateStudent(new Student(){ StudentId = 123459, StudentName = "Hilda Nielsen" });
+                        CreateStudent(new Student(){ StudentId = 123460, StudentName = "Bent Sørensen" });
+                        CreateStudent(new Student(){ StudentId = 123411, StudentName = "Hans Hansen" });
+                        CreateStudent(new Student(){ StudentId = 123412, StudentName = "Emil Dollas" });
+
+                        CourseService.CreateCourse("I4Databaser");
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
                 }
             }
         }
 
-        public static void CreateStudent(int id, string name)
+        public static void CreateStudent(Student student)
         {
             using (var c = new HrsContext())
             { 
-                if (c.Students.Any(s => s.StudentId == id)) return;
-            
-                var student = new Student() { StudentId = id, StudentName = name };
+                if (c.Students.Any(s => s.StudentId == student.StudentId)) return;
+                
                 c.Add(student);
                 c.SaveChanges();
+            }
+        }
+
+        public static List<Student> GetStudentList()
+        {
+            using (var c = new HrsContext())
+            {
+                return c.Students.AsNoTracking().ToList();
             }
         }
     }

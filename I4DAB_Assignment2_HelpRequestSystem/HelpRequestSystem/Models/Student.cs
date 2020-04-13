@@ -13,5 +13,11 @@ namespace HelpRequestSystem.Models
         public List<Exercise> Exercises { get; set; }
         public List<StudentAssignment> StudentAssignments { get; set; }
         public List<StudentCourse> StudentCourses { get; set; }
+
+        //Console print
+        public override string ToString()
+        {
+            return $"au{StudentId} - {StudentName}";
+        }
     }
 }
