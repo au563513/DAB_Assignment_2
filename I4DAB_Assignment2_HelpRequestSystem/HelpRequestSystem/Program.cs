@@ -12,6 +12,7 @@ namespace HelpRequestSystem
         static void Main(string[] args)
         {
             HrsService.Seed();
+            Console.Write(" --- --- --- \n");
             Help();
             Console.Write("\n --- --- --- \n");
             bool finish = false;
@@ -34,8 +35,11 @@ namespace HelpRequestSystem
                         break;
 
                     case 'R':
+                        Console.WriteLine("Clearing database...");
                         ClearDatabase();
+                        Console.WriteLine("ReSeeding database...");
                         HrsService.Seed();
+                        Console.WriteLine("Done!");
                         break;
 
                     case 'H':
@@ -50,13 +54,13 @@ namespace HelpRequestSystem
                         break;
                 }
 
-                Console.Write("\n --- --- --- \n");
+                Console.Write(" --- --- --- \n");
             } while (!finish);
         }
 
         public static void Help()
         {
-            System.Console.WriteLine("Hit key: " +
+            System.Console.Write("Hit key:\n" +
                                      "  1: Print open Help Requests for course\n" +
                                      "  2: Print open Help Requests for student\n" +
                                      "  3: Help Requests per course. (Open / Total)\n" +
