@@ -47,7 +47,7 @@ namespace HelpRequestSystem
                         }
                         else
                         {
-                            Console.WriteLine("Unknown student id");
+                            Console.WriteLine("No Help Requests or Unknown student id");
                         }
 
                         break;
@@ -67,11 +67,12 @@ namespace HelpRequestSystem
                         Console.WriteLine("Courses:");
                         foreach (var course in HrsService.GetCourseList())
                         {
-                            Console.Write($"  {course}");
+                            Console.Write($"  {course}:");
                             foreach (var courseTeacher in course.Teachers)
                             {
                                 Console.Write($"{courseTeacher}, ");
                             }
+                            Console.WriteLine("");
                         }
 
                         break;
