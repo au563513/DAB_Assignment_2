@@ -56,6 +56,9 @@ namespace HelpRequestSystem.Services
                         AddTeacherToExercise("7.1 EF Core", 1, 2); // 7.1 EF Core + Hans Kristian
                         AddTeacherToExercise("7.2 EF Core - Query + Manipulation", 1, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
 
+                        CloseAssignmentHelpRequest(1);
+                        CloseExerciseHelpRequest("7.1 EF Core", 1);
+
                         transaction.Commit();
                     }
                     catch
