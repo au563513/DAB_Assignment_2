@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200413144010_ForeignkeysMashup1.cs" />
+    <Compile Remove="Migrations\20200413144010_ForeignkeysMashup1.Designer.cs" />
+    <Compile Remove="Migrations\20200413144108_ForeignkeysMashup2.cs" />
+    <Compile Remove="Migrations\20200413144108_ForeignkeysMashup2.Designer.cs" />
+    <Compile Remove="Migrations\20200413144352_ForeignkeysMashup3.cs" />
+    <Compile Remove="Migrations\20200413144352_ForeignkeysMashup3.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">

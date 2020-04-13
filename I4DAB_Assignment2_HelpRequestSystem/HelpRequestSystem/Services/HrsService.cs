@@ -106,10 +106,11 @@ namespace HelpRequestSystem.Services
 
                 var exercise = new Exercise()
                 {
+                    TeacherId = null,
                     Lecture = lecture,
                     HelpWhere = helpWhere,
                     StudentId = studentId,
-                    CourseId = courseId,
+                    CourseId = courseId
                 };
 
                 c.Add(exercise);
@@ -129,10 +130,12 @@ namespace HelpRequestSystem.Services
 
                 var assignment = new Assignment()
                 {
+                    Teacher = null,
                     AssignmentName = assignmentName,
-                    CourseId = courseId,
+                    CourseId = courseId
                 };
                 c.Add(assignment);
+                c.SaveChanges();
 
                 var helpRequest = new StudentAssignment()
                 {
