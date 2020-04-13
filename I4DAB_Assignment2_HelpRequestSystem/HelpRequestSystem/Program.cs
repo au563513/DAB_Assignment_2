@@ -37,19 +37,44 @@ namespace HelpRequestSystem
                         {
                             foreach (var exercise in exercises)
                             {
-                                Console.WriteLine($"{exercise.Number} {exercise.Lecture} {exercise.Teacher} {exercise.HelpWhere} {exercise.IsOpen}");
+                                Console.WriteLine($"{exercise.Number} {exercise.Lecture} {exercise.Teacher} {exercise.HelpWhere} Is Help Request open:{exercise.IsOpen}");
                             }
 
                             foreach (var assignment in assignments)
                             {
-                                Console.WriteLine($"{assignment.AssignmentName} {assignment.Teacher} {assignment.IsOpen}");
+                                Console.WriteLine($"{assignment.AssignmentName} Is Help Request open:{assignment.IsOpen}");
                             }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No Help Requests or Unknown student id");
                         }
 
                         break;
 
                     case '3':
                         
+                        break;
+
+                    case '4':
+
+                        Console.WriteLine("Students:");
+                        foreach (var student in HrsService.GetStudentList())
+                        {
+                            Console.WriteLine($"  {student}");
+                        }
+
+                        Console.WriteLine("Courses:");
+                        foreach (var course in HrsService.GetCourseList())
+                        {
+                            Console.Write($"  {course}:");
+                            foreach (var courseTeacher in course.Teachers)
+                            {
+                                Console.Write($"{courseTeacher}, ");
+                            }
+                            Console.WriteLine("");
+                        }
+
                         break;
 
                     case 'R':
@@ -82,6 +107,7 @@ namespace HelpRequestSystem
                                      "  1: Print open Help Requests for course\n" +
                                      "  2: Print open Help Requests for student\n" +
                                      "  3: Help Requests per course. (Open / Total)\n" +
+                                     "  4: Print All Students + Courses with teachers\n" +
                                      "  r: Reset Database(takes some time)\n" +
                                      "  h: Help / Print this menu again\n" +
                                      "  e: Exit program");
