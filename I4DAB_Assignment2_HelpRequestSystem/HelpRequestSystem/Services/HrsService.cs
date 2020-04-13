@@ -48,13 +48,13 @@ namespace HelpRequestSystem.Services
 
                         CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
                         CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
-                        CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3", 1);
-                        CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4", 1);
+                        CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3");
+                        CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4");
 
                         AddTeacherToAssignment(1, 3); // State-machines 101 + Bente 'UML' Hansen
                         AddTeacherToAssignment(2, 1); // DAB Assigment 2 + DAB manden
-                        AddTeacherToExercise("7.1 EF Core", 1, 2); // 7.1 EF Core + Hans Kristian
-                        AddTeacherToExercise("7.2 EF Core - Query + Manipulation", 1, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
+                        AddTeacherToExercise(1, 2); // 7.1 EF Core + Hans Kristian
+                        AddTeacherToExercise(2, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
 
                         transaction.Commit();
                     }
@@ -114,28 +114,25 @@ namespace HelpRequestSystem.Services
             }
         }
 
-        public static void AddTeacherToExercise(string lecture, int number, int teacherId)
+        public static void AddTeacherToExercise(int exerciseId, int teacherId)
         {
             using (var c = new HrsContext())
             {
-                var exercises = c.Exercises.Find(lecture, number);
+                if (c.Exercises.Find(exerciseId) != null) return;
+                if (c.Teachers.Find(teacherId) != null) return;
 
-                if (exercises == null) return;
-                if (c.Teachers.Find(teacherId) == null) return;
-
-                exercises.TeacherId = teacherId;
+                var exercises = c.Exercises.Find(exerciseId);
+                exercises.TeacherId = exerciseId;
 
                 c.SaveChanges();
             }
         }
 
 
-        public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere, int number)
+        public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere)
         {
             using (var c = new HrsContext())
             {
-                if (c.Exercises.Find(lecture, number) == null) return;
-
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
 
@@ -148,8 +145,7 @@ namespace HelpRequestSystem.Services
                     Lecture = lecture,
                     HelpWhere = helpWhere,
                     StudentId = studentId,
-                    CourseId = courseId,
-                    Number = number
+                    CourseId = courseId
                 };
 
                 c.Add(exercise);
@@ -231,8 +227,28 @@ namespace HelpRequestSystem.Services
                 c.SaveChanges();
             }
         }
-        
 
-  
+        public static List<Exercise> GetExerciseHelpRequest(int teacherId, int courseId)
+        {
+            using (var c = new HrsContext())
+            {
+                var list = c.Exercises.AsNoTracking().Where(E => E.CourseId == courseId && E.TeacherId == teacherId)
+                    .Include(c=>c.Teacher)
+                    .Include(c=>c.Course).ToList();
+
+                return list;
+            }
+        }
+
+        public static List<Assignment> GetAssignmentHelpRequest(int teacherId, int courseId)
+        {
+            using (var c = new HrsContext())
+            {
+                var list = c.Assignments.AsNoTracking().Where(A => A.CourseId == courseId && A.TeacherId == teacherId)
+                    .Include(c => c.Course).Include(c => c.Teacher).ToList();
+
+                return list;
+            }
+        }
     }
 }
