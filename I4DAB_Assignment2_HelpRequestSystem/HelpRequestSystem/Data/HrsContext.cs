@@ -10,11 +10,18 @@ namespace HelpRequestSystem.Data
 {
     public class HrsContext : DbContext
     {
+        public HrsContext(DbContextOptions<HrsContext> options) : base(options) { }
+        public HrsContext() { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder ob)
         {
-            string username = "sa";
-            string password = "S4ltsalt";
-            ob.UseSqlServer("Data Source=localhost,1433;Database=HelpRequestdb;User ID="+username+";Password="+password+";");
+            //string username = "sa";
+            //string password = "S4ltsalt";
+            //ob.UseSqlServer("Data Source=localhost,1433;Database=HelpRequestdb;User ID="+username+";Password="+password+";");
+            if (!ob.IsConfigured)
+            {
+                ob.UseSqlite("Data Source=HrsDatabase.db");
+            }
         }
 
         //DBset

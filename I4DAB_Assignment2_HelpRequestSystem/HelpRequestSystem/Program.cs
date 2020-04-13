@@ -11,8 +11,8 @@ namespace HelpRequestSystem
     {
         static void Main(string[] args)
         {
-            //ClearDatabase();
-            //SeedDatabase();
+            ClearDatabase();
+            SeedDatabase();
 
             using (var c = new HrsContext())
             {
