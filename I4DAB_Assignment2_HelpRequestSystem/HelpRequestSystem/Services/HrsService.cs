@@ -45,6 +45,12 @@ namespace HelpRequestSystem.Services
                         EnrollStudent(123411,1,true,4);
                         EnrollStudent(123412,1,true,4);
 
+                        CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
+                        CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
+
+                        CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3");
+                        CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4");
+
                         transaction.Commit();
                     }
                     catch
