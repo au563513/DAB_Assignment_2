@@ -56,6 +56,9 @@ namespace HelpRequestSystem.Services
                         AddTeacherToExercise("7.1 EF Core", 1, 2); // 7.1 EF Core + Hans Kristian
                         AddTeacherToExercise("7.2 EF Core - Query + Manipulation", 1, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
 
+                        CloseAssignmentHelpRequest(1);
+                        CloseExerciseHelpRequest("7.1 EF Core", 1);
+
                         transaction.Commit();
                     }
                     catch
@@ -100,15 +103,39 @@ namespace HelpRequestSystem.Services
             }
         }
 
+        public static void CloseAssignmentHelpRequest(int assignmentId)
+        {
+            using (var c = new HrsContext())
+            {
+                var assignment = c.Assignments.Find(assignmentId);
+                if (assignment == null) return; // Hvis assignment er lige med null - altså ingen assignment eksisterer med det id - så hopper vi ud af funktionen
+
+                assignment.IsOpen = false;
+            }
+        }
+
+        public static void CloseExerciseHelpRequest(string lecture, int number)
+        {
+            using (var c = new HrsContext())
+            {
+                var exercise = c.Exercises.Find(lecture, number);
+                if (exercise == null) return; // Hvis exercise er lige med null - altså ingen exercise eksisterer med den primary key - så hopper vi ud af funktionen
+
+                exercise.IsOpen = false;
+            }
+        }
+
         public static void AddTeacherToAssignment(int assignmentId, int teacherId)
         {
             using (var c = new HrsContext())
             {
-                if (c.Assignments.Find(assignmentId) != null) return;
-                if (c.Teachers.Find(teacherId) != null) return;
-
                 var assignment = c.Assignments.Find(assignmentId);
-                assignment.TeacherId = assignmentId;
+                var teacher = c.Teachers.Find(teacherId);
+
+                if (assignment == null) return;
+                if (teacher == null) return;
+
+                assignment.TeacherId = teacher.TeacherId;
 
                 c.SaveChanges();
             }
@@ -119,13 +146,15 @@ namespace HelpRequestSystem.Services
             using (var c = new HrsContext())
             {
                 var exercises = c.Exercises.Find(lecture, number);
-
                 if (exercises == null) return;
-                if (c.Teachers.Find(teacherId) == null) return;
 
-                exercises.TeacherId = teacherId;
+                if (c.Teachers.Any(t => t.TeacherId == teacherId))
+                {
+                    exercises.TeacherId = teacherId;
 
-                c.SaveChanges();
+                    c.SaveChanges();
+                }
+
             }
         }
 
@@ -133,7 +162,7 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                if (c.Exercises.Find(lecture, number) == null) return;
+                if (c.Exercises.Find(lecture, number) != null) return;
 
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
