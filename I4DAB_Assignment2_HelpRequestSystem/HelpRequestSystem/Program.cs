@@ -13,18 +13,21 @@ namespace HelpRequestSystem
         {
             //ClearDatabase();
 
-            StudentService.Seed();
+            HrsService.Seed();
 
-            foreach (var student in StudentService.GetStudentList())
+            foreach (var student in HrsService.GetStudentList())
             {
                 Console.WriteLine(student);
             }
 
-            foreach (var course in CourseService.GetCourseList())
+            foreach (var course in HrsService.GetCourseList())
             {
-                Console.WriteLine(course);
+                Console.WriteLine(course + " :");
+                foreach (var courseTeacher in course.Teachers)
+                {
+                    Console.Write($" {courseTeacher}");
+                }
             }
-
         }
 
         public static void ClearDatabase()
