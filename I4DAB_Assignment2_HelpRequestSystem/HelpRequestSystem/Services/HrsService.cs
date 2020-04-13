@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HelpRequestSystem.Services
 {
-    public static class StudentService
+    public static class HrsService
     {
         public static void Seed()
         {
@@ -29,10 +29,11 @@ namespace HelpRequestSystem.Services
                         CreateStudent(new Student() {StudentId = 123411, StudentName = "Hans Hansen"});
                         CreateStudent(new Student() {StudentId = 123412, StudentName = "Emil Dollas"});
 
-                        CourseService.CreateCourse("I4Databaser");
+                        CreateCourse("I4Databaser");
+                        CreateCourse("I4Software Design");
 
-                        EnrollStudent(123456,1,true,3);
-                        EnrollStudent(123457,1,true,3);
+                        EnrollStudent(123456,2,true,3);
+                        EnrollStudent(123457,2,true,3);
                         EnrollStudent(123458,1,true,3);
                         EnrollStudent(123459,1,true,3);
                         EnrollStudent(123460,1,true,3);
@@ -65,9 +66,9 @@ namespace HelpRequestSystem.Services
             using (var c = new HrsContext())
             {
                 if (c.StudentCourses.Find(studentId, courseId) == null) return;
-                
-                var student = FindStudent(studentId);
-                var course = CourseService.FindCourse(courseId);
+
+                var student = c.Students.Find(studentId);
+                var course = c.Courses.Find(courseId);
                 if (student == null || course == null) return;
 
                 var SA = new StudentCourse()
@@ -82,13 +83,15 @@ namespace HelpRequestSystem.Services
             }
         }
 
-        public static Student FindStudent(int auId)
+        public static void CreateHelpRequest(int studentId, bool isAssignment)
         {
             using (var c = new HrsContext())
             {
-                if (c.Students.Any(s => s.StudentId == auId)) return null;
+                var student = c.Students.Find(studentId);
+                if (student == null) return;
+                
 
-                return c.Students.Find(auId);
+
             }
         }
 
@@ -99,5 +102,27 @@ namespace HelpRequestSystem.Services
                 return c.Students.AsNoTracking().ToList();
             }
         }
+
+        public static void CreateCourse(string courseName)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Courses.Any(c => c.Name == courseName)) return;
+
+                c.Add(new Course() { Name = courseName });
+                c.SaveChanges();
+            }
+        }
+
+        public static List<Course> GetCourseList()
+        {
+            using (var c = new HrsContext())
+            {
+                return c.Courses.AsNoTracking().ToList();
+            }
+        }
+
+
+
     }
 }
