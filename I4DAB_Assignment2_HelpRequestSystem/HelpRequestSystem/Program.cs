@@ -39,7 +39,6 @@ namespace HelpRequestSystem
                 }
                 Console.WriteLine("");
             }
-
         }
 
         public static void ClearDatabase()

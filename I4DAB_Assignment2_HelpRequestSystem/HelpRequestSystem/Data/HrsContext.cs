@@ -94,15 +94,15 @@ namespace HelpRequestSystem.Data
             mb.Entity<Exercise>()
                 .HasOne(e => e.Teacher)
                 .WithMany(s => s.Exercises)
-                .OnDelete(DeleteBehavior.ClientNoAction)
-                .HasForeignKey(e => e.TeacherId);
+                .HasForeignKey(e => e.TeacherId)
+                .IsRequired(false);
 
             //Teacher - Assignment (One to Many)
             mb.Entity<Assignment>()
                 .HasOne(a => a.Teacher)
                 .WithMany(t => t.Assignments)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(a => a.TeacherId);
+                .HasForeignKey(a => a.TeacherId)
+                .IsRequired(false);
 
             //Course - Assignment (One to Many)
             mb.Entity<Assignment>()
