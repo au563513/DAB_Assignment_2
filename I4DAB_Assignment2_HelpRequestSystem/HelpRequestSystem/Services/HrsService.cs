@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Linq.Expressions;
@@ -50,6 +51,11 @@ namespace HelpRequestSystem.Services
                         CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3");
                         CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4");
 
+                        AddTeacherToAssignment(1, 3); // State-machines 101 + Bente 'UML' Hansen
+                        AddTeacherToAssignment(2, 1); // DAB Assigment 2 + DAB manden
+                        AddTeacherToExercise(1, 2); // 7.1 EF Core + Hans Kristian
+                        AddTeacherToExercise(2, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
+
                         transaction.Commit();
                     }
                     catch
@@ -93,6 +99,35 @@ namespace HelpRequestSystem.Services
                 c.SaveChanges();
             }
         }
+
+        public static void AddTeacherToAssignment(int assignmentId, int teacherId)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Assignments.Find(assignmentId) != null) return;
+                if (c.Teachers.Find(teacherId) != null) return;
+
+                var assignment = c.Assignments.Find(assignmentId);
+                assignment.TeacherId = assignmentId;
+
+                c.SaveChanges();
+            }
+        }
+
+        public static void AddTeacherToExercise(int exerciseId, int teacherId)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Exercises.Find(exerciseId) != null) return;
+                if (c.Teachers.Find(teacherId) != null) return;
+
+                var exercises = c.Exercises.Find(exerciseId);
+                exercises.TeacherId = exerciseId;
+
+                c.SaveChanges();
+            }
+        }
+
 
         public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere)
         {
