@@ -3,14 +3,16 @@ using HelpRequestSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HelpRequestSystem.Migrations
 {
     [DbContext(typeof(HrsContext))]
-    partial class HrsContextModelSnapshot : ModelSnapshot
+    [Migration("20200413115006_NewCourseConstraint")]
+    partial class NewCourseConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

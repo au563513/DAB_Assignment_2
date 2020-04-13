@@ -33,6 +33,10 @@ namespace HelpRequestSystem.Services
                         CreateCourse("I4Databaser");
                         CreateCourse("I4Software Design");
 
+                        CreateTeacher("DAB manden", 1);
+                        CreateTeacher("Hans Kristian", 1);
+                        CreateTeacher("Bente 'UML' Hansen",2);
+
                         EnrollStudent(123456,2,true,3);
                         EnrollStudent(123457,2,true,3);
                         EnrollStudent(123458,1,true,3);
@@ -163,11 +167,29 @@ namespace HelpRequestSystem.Services
         {
             using (var c = new HrsContext())
             {
-                return c.Courses.AsNoTracking().ToList();
+                var List = c.Courses.AsNoTracking().ToList();
+                foreach (var course in List)
+                {
+                    course.Teachers = c.Teachers.Where(t => t.CourseId == course.CourseId)
+                                                .AsNoTracking()
+                                                .ToList();
+                }
+
+                return List;
             }
         }
 
+        public static void CreateTeacher(string name, int courseId)
+        {
+            using (var c = new HrsContext())
+            {
+                if (c.Teachers.Any(t=>t.TeacherName == name)) return;
+                if (!c.Courses.Any(c=>c.CourseId == courseId)) return;
 
+                c.Add(new Teacher() { TeacherName = name, CourseId = courseId});
+                c.SaveChanges();
+            }
+        }
 
     }
 }

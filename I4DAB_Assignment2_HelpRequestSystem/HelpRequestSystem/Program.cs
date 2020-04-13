@@ -22,9 +22,12 @@ namespace HelpRequestSystem
 
             foreach (var course in HrsService.GetCourseList())
             {
-                Console.WriteLine(course);
+                Console.WriteLine(course + " :");
+                foreach (var courseTeacher in course.Teachers)
+                {
+                    Console.Write($" {courseTeacher}");
+                }
             }
-
         }
 
         public static void ClearDatabase()
