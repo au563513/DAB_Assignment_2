@@ -17,7 +17,7 @@ namespace HelpRequestSystem.Models
         //Console print
         public override string ToString()
         {
-            return $"au{StudentId} - {StudentName}";
+            return $"{StudentId} - {StudentName}";
         }
     }
 }
