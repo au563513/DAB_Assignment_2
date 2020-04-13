@@ -51,7 +51,7 @@ namespace HelpRequestSystem.Services
                             CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
                         }
 
-                        if (!c.Assignments.Any(a => a.AssignmentId == 1))
+                        if (!c.Assignments.Any(a => a.AssignmentId == 2))
                         {
                             CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
                         }
