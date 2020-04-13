@@ -71,7 +71,16 @@ namespace HelpRequestSystem
                         break;
 
                     case '3':
-                        
+                        Console.Write("Enter Course ID:");
+                        var tempCC = int.Parse(Console.ReadLine());
+
+                        var Oe = HrsService.ShowStatisticsExercises(true, tempCC);
+                        var Ce = HrsService.ShowStatisticsExercises(false, tempCC);
+                        var Oa = HrsService.ShowStatisticsAssignment(true, tempCC);
+                        var Ca = HrsService.ShowStatisticsAssignment(true, tempCC);
+
+                        Console.WriteLine($"{Oe+Oa} / {Oe+Oa+Ce+Ca}");
+
                         break;
 
                     case '4':
