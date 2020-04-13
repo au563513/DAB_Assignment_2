@@ -48,13 +48,13 @@ namespace HelpRequestSystem.Services
 
                         CreateAssignmentHelpRequest(123456, 2, "State-machines 101");
                         CreateAssignmentHelpRequest(123412, 1, "DAB Assigment 2");
-                        CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3");
-                        CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4");
+                        CreateExerciseHelpRequest(123459, 1, "7.1 EF Core", "Discord lokale 3", 1);
+                        CreateExerciseHelpRequest(123412, 1, "7.2 EF Core - Query + Manipulation", "Discord lokale 4", 1);
 
                         AddTeacherToAssignment(1, 3); // State-machines 101 + Bente 'UML' Hansen
                         AddTeacherToAssignment(2, 1); // DAB Assigment 2 + DAB manden
-                        AddTeacherToExercise(1, 2); // 7.1 EF Core + Hans Kristian
-                        AddTeacherToExercise(2, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
+                        AddTeacherToExercise("7.1 EF Core", 1, 2); // 7.1 EF Core + Hans Kristian
+                        AddTeacherToExercise("7.2 EF Core - Query + Manipulation", 1, 1); // 7.2 EF Core - Query + Manipulation + DAB manden
 
                         transaction.Commit();
                     }
@@ -114,25 +114,28 @@ namespace HelpRequestSystem.Services
             }
         }
 
-        public static void AddTeacherToExercise(int exerciseId, int teacherId)
+        public static void AddTeacherToExercise(string lecture, int number, int teacherId)
         {
             using (var c = new HrsContext())
             {
-                if (c.Exercises.Find(exerciseId) != null) return;
-                if (c.Teachers.Find(teacherId) != null) return;
+                var exercises = c.Exercises.Find(lecture, number);
 
-                var exercises = c.Exercises.Find(exerciseId);
-                exercises.TeacherId = exerciseId;
+                if (exercises == null) return;
+                if (c.Teachers.Find(teacherId) == null) return;
+
+                exercises.TeacherId = teacherId;
 
                 c.SaveChanges();
             }
         }
 
 
-        public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere)
+        public static void CreateExerciseHelpRequest(int studentId, int courseId, string lecture, string helpWhere, int number)
         {
             using (var c = new HrsContext())
             {
+                if (c.Exercises.Any(c => c.Lecture == lecture) || c.Exercises.Any(c => c.Number == number)) return;
+
                 var student = c.Students.Find(studentId);
                 if (student == null) return;
 
@@ -145,7 +148,8 @@ namespace HelpRequestSystem.Services
                     Lecture = lecture,
                     HelpWhere = helpWhere,
                     StudentId = studentId,
-                    CourseId = courseId
+                    CourseId = courseId,
+                    Number = number
                 };
 
                 c.Add(exercise);
