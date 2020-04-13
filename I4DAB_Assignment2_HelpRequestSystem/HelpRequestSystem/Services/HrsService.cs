@@ -310,7 +310,6 @@ namespace HelpRequestSystem.Services
                 assignments = c.StudentAssignments.AsNoTracking()
                     .Where(sa=>sa.StudentId == studentId)
                     .Select(sa=>sa.Assignment)
-                    .Include(a=>a.Teacher)
                     .ToList();
 
                 if (!exercises.Any() && !assignments.Any())

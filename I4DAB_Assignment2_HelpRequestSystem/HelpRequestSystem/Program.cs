@@ -37,13 +37,17 @@ namespace HelpRequestSystem
                         {
                             foreach (var exercise in exercises)
                             {
-                                Console.WriteLine($"{exercise.Number} {exercise.Lecture} {exercise.Teacher} {exercise.HelpWhere} {exercise.IsOpen}");
+                                Console.WriteLine($"{exercise.Number} {exercise.Lecture} {exercise.Teacher} {exercise.HelpWhere} Is Help Request open:{exercise.IsOpen}");
                             }
 
                             foreach (var assignment in assignments)
                             {
-                                Console.WriteLine($"{assignment.AssignmentName} {assignment.Teacher} {assignment.IsOpen}");
+                                Console.WriteLine($"{assignment.AssignmentName} Is Help Request open:{assignment.IsOpen}");
                             }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown student id");
                         }
 
                         break;
